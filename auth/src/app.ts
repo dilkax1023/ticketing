@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import express from 'express';
 import Controller from './interfaces/controller.interface';
+import errorMiddleware from './middlewares/error.middleware';
 
 class App {
 	public app: express.Application;
@@ -10,6 +11,7 @@ class App {
 
 		this.initializeMiddlewares();
 		this.initializeControllers(controllers);
+		this.initializeErrorHandling();
 	}
 
 	public listen() {
@@ -24,6 +26,10 @@ class App {
 
 	private initializeMiddlewares() {
 		this.app.use(bodyParser.json());
+	}
+
+	private initializeErrorHandling() {
+		this.app.use(errorMiddleware);
 	}
 
 	private initializeControllers(controllers: Controller[]) {
