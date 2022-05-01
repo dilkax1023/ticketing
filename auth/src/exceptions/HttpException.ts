@@ -1,11 +1,13 @@
-class HttpException extends Error {
-	status: number;
-	message: string;
-	constructor(status: number, message: string) {
+abstract class HttpException extends Error {
+	abstract statusCode: number;
+
+	constructor(message: string) {
 		super(message);
-		this.status = status;
-		this.message = message;
+
+		Object.setPrototypeOf(this, HttpException.prototype);
 	}
+
+	abstract serializeErrors(): { message: string; field?: string }[];
 }
 
 export default HttpException;
